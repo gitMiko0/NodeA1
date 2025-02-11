@@ -9,9 +9,10 @@
 *   [http://localhost:3000/api/artists/1223423](http://localhost:3000/api/artists/1223423)
 *   [http://localhost:3000/api/artists/search/ma](http://localhost:3000/api/artists/search/ma)
 *   [http://localhost:3000/api/artists/search/mA](http://localhost:3000/api/artists/search/mA)
-*   ---------
 *   [http://localhost:3000/api/artists/country/fra](http://localhost:3000/api/artists/country/fra)
 *   [http://localhost:3000/api/paintings](http://localhost:3000/api/paintings)
+
+  ---------
 *   [http://localhost:3000/api/paintings/sort/year](http://localhost:3000/api/paintings/sort/year)
 *   [http://localhost:3000/api/paintings/63](http://localhost:3000/api/paintings/63)
 *   [http://localhost:3000/api/paintings/search/port](http://localhost:3000/api/paintings/search/port)
