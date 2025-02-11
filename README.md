@@ -4,6 +4,9 @@
 *   [http://localhost:3000/api/galleries/30](http://localhost:3000/api/galleries/30)
 *   [http://localhost:3000/api/galleries/country/Calgary](http://localhost:3000/api/galleries/country/Calgary)
 *   [http://localhost:3000/api/galleries/country/fra](http://localhost:3000/api/galleries/country/fra)
+
+-
+
 *   [http://localhost:3000/api/artists](http://localhost:3000/api/artists)
 *   [http://localhost:3000/api/artists/12](http://localhost:3000/api/artists/12)
 *   [http://localhost:3000/api/artists/1223423](http://localhost:3000/api/artists/1223423)
