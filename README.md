@@ -12,7 +12,6 @@
 *   [http://localhost:3000/api/artists/country/fra](http://localhost:3000/api/artists/country/fra)
 *   [http://localhost:3000/api/paintings](http://localhost:3000/api/paintings)
 
-  ---------
 *   [http://localhost:3000/api/paintings/sort/year](http://localhost:3000/api/paintings/sort/year)
 *   [http://localhost:3000/api/paintings/63](http://localhost:3000/api/paintings/63)
 *   [http://localhost:3000/api/paintings/search/port](http://localhost:3000/api/paintings/search/port)
@@ -23,6 +22,7 @@
 *   [http://localhost:3000/api/paintings/artist/16](http://localhost:3000/api/paintings/artist/16)
 *   [http://localhost:3000/api/paintings/artist/666](http://localhost:3000/api/paintings/artist/666)
 *   [http://localhost:3000/api/paintings/artists/country/ital](http://localhost:3000/api/paintings/artists/country/ital)
+  -------
 *   [http://localhost:3000/api/genres](http://localhost:3000/api/genres)
 *   [http://localhost:3000/api/genres/76](http://localhost:3000/api/genres/76)
 *   [http://localhost:3000/api/genres/painting/408](http://localhost:3000/api/genres/painting/408)
