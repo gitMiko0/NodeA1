@@ -23,14 +23,18 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/artist/:id", async (req, res) => {
+// Get paintings from a specific gallery
+router.get("/galleries/:id", async (req, res) => {
   try {
-    const data = await paintingsController.getPaintingsByArtist(req.params.id);
+    const data = await paintingsController.getPaintingsByGallery(req.params.id);
+    if (!data.length) return res.status(404).json({ error: "No paintings found for this gallery" });
     res.json(data);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    console.error("Error fetching paintings by gallery:", error);
+    res.status(500).json({ error: "Failed to fetch paintings" });
   }
 });
+
 
 router.get("/years/:start/:end", async (req, res) => {
   try {
@@ -68,4 +72,44 @@ router.get("/search/:substring", async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
+// Get paintings by a specific artist
+router.get("/artist/:id", async (req, res) => {
+  try {
+    const data = await paintingsController.getPaintingsByArtist(req.params.id);
+    if (!data.length) return res.status(404).json({ error: "No paintings found for this artist" });
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching paintings by artist:", error);
+    res.status(500).json({ error: "Failed to fetch paintings" });
+  }
+});
+
+// Get paintings by artists of a certain nationality
+router.get("/artists/country/:substring", async (req, res) => {
+  try {
+    const data = await paintingsController.getPaintingsByArtistNationality(req.params.substring);
+    if (!data.length) return res.status(404).json({ error: "No paintings found for this nationality" });
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching paintings by artist nationality:", error);
+    res.status(500).json({ error: "Failed to fetch paintings" });
+  }
+});
+
+/**
+ * GET /api/paintings/genre/:id
+ * Returns all paintings for a given genre, sorted by yearOfWork
+ */
+router.get("/painting/genre/:id", async (req, res) => {
+  try {
+    const data = await genresController.getPaintingsByGenre(req.params.id);
+    if (!data.length) return res.status(404).json({ error: `No paintings found for genre ID ${req.params.id}` });
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching paintings for genre:", error);
+    res.status(500).json({ error: "Failed to fetch paintings" });
+  }
+});
+
 export default router;

@@ -1,23 +1,26 @@
 // paintingsController.js
 
 import supabase from "../models/db.js";
-import * as utils from "./utils.js";  // Import the utils file
-const tableName = "paintings"; // Define table name.
+import * as utils from "./utils.js";
+const tableName = "paintings";
 const idColumn = "paintingId";
 const artistIdColumn = "artistId";
 const galleryIdColumn = "galleryId";
 const yearColumn = "yearOfWork";
 
 export const getAllPaintings = async () => {
-  return await utils.getAllSorted(tableName, "title", true);
+  return await utils.getAllSorted(tableName, idColumn, true);
 };
 
 export const getPaintingById = async (id) => {
   return await utils.searchById(tableName, idColumn, id);
 };
 
-export const getPaintingsByArtist = async (id) => {
-  return await utils.searchWithJoin(tableName, "artists", artistIdColumn, "id", id);
+export const getPaintingsSorted = async (sortBy = "year") => {
+  if (sortBy !== "year" && sortBy !== "title") {
+    throw new Error("Invalid sort parameter. Use 'year' or 'title'.");
+  }
+  return await utils.getAllSorted(tableName, sortBy === "year" ? yearColumn : "title", true);
 };
 
 /**
@@ -30,10 +33,10 @@ export const getPaintingsByYearRange = async (start, end) => {
   try {
     const { data, error } = await supabase
       .from(tableName)
-      .select("paintingId, title, yearOfWork")
-      .gte("yearOfWork", start)
-      .lte("yearOfWork", end)
-      .order("yearOfWork", { ascending: true });
+      .select("*") // show all contents of the paintings
+      .gte(yearColumn, start)
+      .lte(yearColumn, end)
+      .order(yearColumn, { ascending: true }); // sort by the years
 
     if (error) throw new Error(error.message);
     return data || [];
@@ -43,21 +46,55 @@ export const getPaintingsByYearRange = async (start, end) => {
   }
 };
 
-export const getPaintingsByGallery = async (id) => {
-  return await utils.searchWithJoin(tableName, "galleries", galleryIdColumn, "id", id);
-};
-
-export const getPaintingsSorted = async (sortBy = "year") => {
-  if (sortBy !== "year" && sortBy !== "title") {
-    throw new Error("Invalid sort parameter. Use 'year' or 'title'.");
-  }
-  return await utils.getAllSorted(tableName, sortBy === "year" ? yearColumn : "title", true);
-};
-
 export const searchPaintingsByTitle = async (substring) => {
   return await utils.searchBySubstring(tableName, "title", substring);
 };
 
-export const searchPaintingsByNationality = async (nationality) => {
-  return await utils.searchWithJoin(tableName, "artists", artistIdColumn, "id", nationality);
+export const getPaintingsByGallery = async (galleryId) => {
+  try {
+    const { data, error } = await supabase
+      .from("paintings")
+      .select("*, galleries(*)")  // Join paintings with gallery details
+      .eq("galleryId", galleryId);
+
+    if (error) throw new Error(error.message);
+    return data || [];
+  } catch (error) {
+    console.error(`Error fetching paintings by gallery:`, error);
+    throw error;
+  }
 };
+
+
+export const getPaintingsByArtist = async (artistId) => {
+  try {
+    const { data, error } = await supabase
+      .from("paintings")
+      .select("*, artists(*)")  // Join paintings with artist details
+      .eq("artistId", artistId);
+
+    if (error) throw new Error(error.message);
+    return data || [];
+  } catch (error) {
+    console.error(`Error fetching paintings by artist:`, error);
+    throw error;
+  }
+};
+
+
+export const getPaintingsByArtistNationality = async (substring) => {
+  try {
+    const { data, error } = await supabase
+      .from("paintings")
+      .select("*, artists!inner(*)")  // Explicit inner join with artists
+      .ilike("artists.nationality", `${substring}%`);  // Apply filter on nationality
+
+    if (error) throw new Error(error.message);
+    return data || [];
+  } catch (error) {
+    console.error(`Error fetching paintings by artist nationality:`, error);
+    throw error;
+  }
+};
+
+

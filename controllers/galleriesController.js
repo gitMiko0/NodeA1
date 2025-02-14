@@ -5,7 +5,7 @@ const tableName = "galleries"; // Define table name.
 const idColumn = "galleryId";
 
 export const getAllGalleries = async () => {
-  return await utils.getAllSorted(tableName, "galleryName", true);
+  return await utils.getAllSorted(tableName, idColumn, true);
 };
 
 export const getGalleryById = async (id) => {
@@ -14,8 +14,4 @@ export const getGalleryById = async (id) => {
 
 export const getGalleriesByCountry = async (substring) => {
   return await utils.searchBySubstring(tableName, "galleryCountry", substring);
-};
-
-export const getPaintingsByGallery = async (id) => {
-  return await utils.searchWithJoin("paintings", tableName, "galleryId", idColumn, id);
 };

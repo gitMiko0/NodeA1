@@ -81,32 +81,72 @@ export const getAllSorted = async (tableName, sortColumn, ascending = true) => {
   }
 };
 
-/**
- * Searches for records in a main table joined with another table based on a relationship,
- * filtered by a nationality substring in the joined table.
- *
- * @param {string} mainTable                The name of the main table.
- * @param {string} joinTable                The name of the table to join with.
-  * @param {string} mainTableJoinColumn     The column in the main table used for the join (foreign key).
- * @param {string} joinTableJoinColumn      The column in the join table used for the join (primary key).
- * @param {string} nationality              The nationality substring to filter by (case-insensitive).
- * @returns {Promise<array>}                An array of matching records from the main table with the joined table data.
- * @throws {Error}                          If there is an error during the database query.
- */
-export const searchWithJoin = async (mainTable, joinTable, mainTableJoinColumn, joinTableJoinColumn, nationality) => {
-    try {
-        const { data, error } = await supabase
-            .from(mainTable)
-            .select(`*, ${joinTable}(nationality)`)
-            .eq(`${mainTableJoinColumn}`, `${joinTableJoinColumn}.id`)
-            .ilike(`${joinTable}.nationality`, `%${nationality}%`);
+export const getCountsByGroup = async (tableName, groupColumn, countColumn, havingCondition = null, sortOrder = 'desc') => {
+  try {
+    let query = supabase
+      .from(tableName)
+      .select(`${groupColumn}, count(${countColumn})`, { count: 'exact' })
+      .group(groupColumn)
+      .order('count', { ascending: sortOrder === 'asc' });
 
-        if (error) {
-            throw new Error(error.message);
-        }
-        return data || []; // Return an empty array if no data is found
-    } catch (error) {
-        console.error(`Error in searchWithJoin for mainTable ${mainTable}, joinTable ${joinTable}, nationality ${nationality}:`, error);
-        throw error; // Re-throw the error to be caught by the route handler
+    if (havingCondition) {
+      query = query.gte('count', havingCondition);
     }
-}
+
+    const { data, error } = await query;
+
+    if (error) throw new Error(error.message);
+    return data || [];
+  } catch (error) {
+    console.error(`Error in getCountsByGroup:`, error);
+    throw error;
+  }
+};
+
+export const complexJoinQuery = async (mainTable, joins, select, filters = null, orderBy = null) => {
+  try {
+    let query = supabase.from(mainTable).select(select);
+
+    // Apply joins
+    joins.forEach(join => {
+      query = query.join(join.table, join.on);
+    });
+
+    // Apply filters if any
+    if (filters) {
+      filters.forEach(filter => {
+        query = query.filter(filter.column, filter.operator, filter.value);
+      });
+    }
+
+    // Apply ordering if specified
+    if (orderBy) {
+      query = query.order(orderBy.column, { ascending: orderBy.ascending });
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw new Error(error.message);
+    return data || [];
+  } catch (error) {
+    console.error(`Error in complexJoinQuery:`, error);
+    throw error;
+  }
+};
+
+export const searchSubstringWithJoin = async (mainTable, joinTable, joinCondition, searchColumn, substring) => {
+  try {
+    const { data, error } = await supabase
+      .from(mainTable)
+      .select(`*, ${joinTable}(*)`)
+      .eq(joinCondition.mainColumn, joinCondition.joinColumn)
+      .ilike(`${joinTable}.${searchColumn}`, `%${substring}%`);
+
+    if (error) throw new Error(error.message);
+    return data || [];
+  } catch (error) {
+    console.error(`Error in searchSubstringWithJoin:`, error);
+    throw error;
+  }
+};
+

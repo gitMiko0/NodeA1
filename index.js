@@ -6,6 +6,8 @@ import { createClient } from "@supabase/supabase-js";
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Enable automatic JSON pretty printing
+app.set("json spaces", 2);
 app.use(cors());
 app.use(express.json());
 

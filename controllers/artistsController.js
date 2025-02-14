@@ -5,7 +5,7 @@ const tableName = "artists"; // Define table name.
 const idColumn = 'artistId';
 
 export const getAllArtists = async () => {
-  return await utils.getAllSorted(tableName, "lastName"); // Sort by last name
+  return await utils.getAllSorted(tableName, idColumn, true); // Sort by last name
 };
 
 export const getArtistById = async (id) => {

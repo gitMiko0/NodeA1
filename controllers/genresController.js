@@ -5,16 +5,25 @@ const tableName = "genres"; // Define table name.
 const idColumn = "genreId";
 
 export const getAllGenres = async () => {
-  return await utils.getAllSorted(tableName, "genreName", true);
+  return await utils.getAllSorted(tableName, idColumn, true);
 };
 
 export const getGenreById = async (id) => {
   return await utils.searchById(tableName, idColumn, id);
 };
 
-export const getGenresByPainting = async (id) => {
-  return await utils.searchWithJoin(tableName, "paintings", idColumn, "id", id);
+export const getGenresByPainting = async (paintingId) => {
+  return await utils.searchWithManyToMany(
+    "genres",          // Main table
+    "paintingGenres",  // Linking table
+    "paintings",       // Target table
+    "genreId",         // ID column in genres
+    "genreId",         // Linking column in paintingGenres
+    "paintingId",      // Linking column in paintingGenres
+    paintingId         // The paintingId to filter by
+  );
 };
+
 
 export const getPaintingsByGenre = async (id) => {
   return await utils.searchWithJoin("paintings", tableName, "genreId", idColumn, id);
