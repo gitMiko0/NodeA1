@@ -97,4 +97,22 @@ export const getPaintingsByArtistNationality = async (substring) => {
   }
 };
 
+/**
+ * Get all paintings for a given genre
+ * @param {number} genreId - The ID of the genre
+ * @returns {Promise<Array>} - Array of paintings for the genre
+ */
+export const getPaintingsByGenre = async (genreId) => {
+  return await utils.fetchManyToMany(
+    "paintings",      // Target table (paintings)
+    "paintinggenres", // Linking table
+    "paintingId",     // Column in target table
+    "paintingId",     // Column in linking table referencing target
+    "genreId",        // Column in linking table filtering by genre ID
+    genreId,          // The genreId to filter by
+    ["paintingId", "title", "yearOfWork"], // Select only required fields
+    "yearOfWork",     // Order by yearOfWork
+    true              // Sort ascending
+  );
+};
 

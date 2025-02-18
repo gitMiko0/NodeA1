@@ -101,14 +101,14 @@ router.get("/artists/country/:substring", async (req, res) => {
  * GET /api/paintings/genre/:id
  * Returns all paintings for a given genre, sorted by yearOfWork
  */
-router.get("/painting/genre/:id", async (req, res) => {
+router.get("/genre/:id", async (req, res) => {
   try {
     const data = await genresController.getPaintingsByGenre(req.params.id);
     if (!data.length) return res.status(404).json({ error: `No paintings found for genre ID ${req.params.id}` });
     res.json(data);
   } catch (error) {
     console.error("Error fetching paintings for genre:", error);
-    res.status(500).json({ error: "Failed to fetch paintings" });
+    res.status(500).json({ error: error.message || "Failed to fetch paintings" });
   }
 });
 

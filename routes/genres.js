@@ -50,10 +50,8 @@ router.get("/painting/:id", async (req, res) => {
     res.json(data);
   } catch (error) {
     console.error("Error fetching genres for painting:", error);
-    res.status(500).json({ error: "Failed to fetch genres" });
+    res.status(500).json({ error: error.message || "Failed to fetch genres" });
   }
 });
-
-
 
 export default router;

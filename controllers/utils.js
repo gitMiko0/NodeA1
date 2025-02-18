@@ -80,73 +80,47 @@ export const getAllSorted = async (tableName, sortColumn, ascending = true) => {
     throw error; // Re-throw the error to be caught by the route handler
   }
 };
-
-export const getCountsByGroup = async (tableName, groupColumn, countColumn, havingCondition = null, sortOrder = 'desc') => {
+/**
+ * Generic function to fetch records via a many-to-many relationship.
+ *
+ * @param {string} targetTable - The table we want data from (e.g., "genres" or "paintings")
+ * @param {string} linkingTable - The many-to-many relationship table (e.g., "paintinggenres")
+ * @param {string} targetTableIdColumn - The ID column in the target table (e.g., "genreId" or "paintingId")
+ * @param {string} linkingTableTargetColumn - The column in linkingTable referencing the targetTable (e.g., "genreId" or "paintingId")
+ * @param {string} linkingTableFilterColumn - The column in linkingTable filtering by a given ID (e.g., "paintingId" or "genreId")
+ * @param {number} filterValue - The specific ID to filter by
+ * @param {Array<string>} selectFields - The fields to retrieve from the targetTable
+ * @param {string} orderByColumn - The column to sort by (optional)
+ * @param {boolean} ascending - Whether sorting is ascending (default: true)
+ * @returns {Promise<Array>} - Array of matching records
+ */
+export const fetchManyToMany = async (
+  targetTable,
+  linkingTable,
+  targetTableIdColumn,
+  linkingTableTargetColumn,
+  linkingTableFilterColumn,
+  filterValue,
+  selectFields = ["*"],
+  orderByColumn = null,
+  ascending = true
+) => {
   try {
     let query = supabase
-      .from(tableName)
-      .select(`${groupColumn}, count(${countColumn})`, { count: 'exact' })
-      .group(groupColumn)
-      .order('count', { ascending: sortOrder === 'asc' });
+      .from(linkingTable) // Start from the linking table
+      .select(`${targetTable} (${selectFields.join(", ")})`) // Fetch data from target table
+      .eq(linkingTableFilterColumn, filterValue); // Filter by the given ID
 
-    if (havingCondition) {
-      query = query.gte('count', havingCondition);
+    if (orderByColumn) {
+      query = query.order(orderByColumn, { ascending });
     }
 
     const { data, error } = await query;
-
     if (error) throw new Error(error.message);
-    return data || [];
+
+    return data.map(record => record[targetTable]) || []; // Extract target table records
   } catch (error) {
-    console.error(`Error in getCountsByGroup:`, error);
+    console.error(`Error in fetchManyToMany:`, error);
     throw error;
   }
 };
-
-export const complexJoinQuery = async (mainTable, joins, select, filters = null, orderBy = null) => {
-  try {
-    let query = supabase.from(mainTable).select(select);
-
-    // Apply joins
-    joins.forEach(join => {
-      query = query.join(join.table, join.on);
-    });
-
-    // Apply filters if any
-    if (filters) {
-      filters.forEach(filter => {
-        query = query.filter(filter.column, filter.operator, filter.value);
-      });
-    }
-
-    // Apply ordering if specified
-    if (orderBy) {
-      query = query.order(orderBy.column, { ascending: orderBy.ascending });
-    }
-
-    const { data, error } = await query;
-
-    if (error) throw new Error(error.message);
-    return data || [];
-  } catch (error) {
-    console.error(`Error in complexJoinQuery:`, error);
-    throw error;
-  }
-};
-
-export const searchSubstringWithJoin = async (mainTable, joinTable, joinCondition, searchColumn, substring) => {
-  try {
-    const { data, error } = await supabase
-      .from(mainTable)
-      .select(`*, ${joinTable}(*)`)
-      .eq(joinCondition.mainColumn, joinCondition.joinColumn)
-      .ilike(`${joinTable}.${searchColumn}`, `%${substring}%`);
-
-    if (error) throw new Error(error.message);
-    return data || [];
-  } catch (error) {
-    console.error(`Error in searchSubstringWithJoin:`, error);
-    throw error;
-  }
-};
-
