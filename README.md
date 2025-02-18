@@ -25,6 +25,7 @@
 *   [http://localhost:3000/api/genres](http://localhost:3000/api/genres)
 *   [http://localhost:3000/api/genres/76](http://localhost:3000/api/genres/76)
     -------
+
 *   [http://localhost:3000/api/genres/painting/408](http://localhost:3000/api/genres/painting/408)
 *   [http://localhost:3000/api/genres/painting/jsdfhg](http://localhost:3000/api/genres/painting/jsdfhg)
 *   [http://localhost:3000/api/paintings/genre/78](http://localhost:3000/api/paintings/genre/78)
