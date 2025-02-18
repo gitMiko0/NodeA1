@@ -97,13 +97,30 @@ router.get("/artists/country/:substring", async (req, res) => {
   }
 });
 
-/**
+/*
  * GET /api/paintings/genre/:id
  * Returns all paintings for a given genre, sorted by yearOfWork
  */
 router.get("/genre/:id", async (req, res) => {
   try {
-    const data = await genresController.getPaintingsByGenre(req.params.id);
+    const data = await paintingsController.getPaintingsByGenre(req.params.id);
+    if (!data.length) return res.status(404).json({ error: `No paintings found for genre ID ${req.params.id}` });
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching paintings for genre:", error);
+    res.status(500).json({ error: error.message || "Failed to fetch paintings" });
+  }
+});
+
+/*
+ *  GET /api/paintings/era/:givenId
+ *  Returns all paintings for a given era (using eraId)
+ *  Only returns the firelds paintingId, title, and yearOfWork.
+ *  Sorted by yearOfWork
+ */
+router.get("/era/:id", async (req, res) => {
+  try {
+    const data = await paintingsController.getPaintingsByEra(req.params.id);
     if (!data.length) return res.status(404).json({ error: `No paintings found for genre ID ${req.params.id}` });
     res.json(data);
   } catch (error) {

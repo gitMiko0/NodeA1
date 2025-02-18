@@ -104,15 +104,43 @@ export const getPaintingsByArtistNationality = async (substring) => {
  */
 export const getPaintingsByGenre = async (genreId) => {
   return await utils.fetchManyToMany(
-    "paintings",      // Target table (paintings)
+    tableName,        // Target table (paintings)
     "paintinggenres", // Linking table
-    "paintingId",     // Column in target table
-    "paintingId",     // Column in linking table referencing target
+    idColumn,         // Column in target table
+    idColumn,         // Column in linking table referencing target
     "genreId",        // Column in linking table filtering by genre ID
     genreId,          // The genreId to filter by
-    ["paintingId", "title", "yearOfWork"], // Select only required fields
-    "yearOfWork",     // Order by yearOfWork
+    ["*"],            // Select only required fields (all)
+    idColumn,         // Order by yearOfWork
     true              // Sort ascending
   );
 };
+
+
+/**
+ * Get all paintings for a given era (filtered using genres)
+ * @param {number} eraId - The ID of the era
+ * @returns {Promise<Array>} - Array of paintings matching the era
+ */
+export const getPaintingsByEra = async (eraId) => {
+  try {
+    const { data, error } = await supabase
+      .from("paintinggenres") // Start from linking table
+      .select("paintings!inner(paintingId, title, yearOfWork), genres!inner(eraId)")
+      .eq("genres.eraId", eraId); // Filter by eraId in genres
+
+    if (error) throw new Error(error.message);
+
+    // Sort results manually since Supabase doesn't allow sorting on a joined table
+    return data
+      .map(record => record.paintings)
+      .filter(Boolean) // Remove any null values
+      .sort((a, b) => a.yearOfWork - b.yearOfWork); // Sort by yearOfWork manually
+  } catch (error) {
+    console.error(`Error fetching paintings for era ${eraId}:`, error);
+    throw error;
+  }
+};
+
+
 

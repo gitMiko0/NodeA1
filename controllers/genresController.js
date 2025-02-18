@@ -1,5 +1,5 @@
 // genresController.js
-import supabase from "../models/db.js";
+
 import * as utils from "./utils.js";  // Import the utils file
 const tableName = "genres"; // Define table name.
 const idColumn = "genreId";
@@ -27,15 +27,15 @@ export const getTopGenres = async (threshold) => {
  */
 export const getGenresByPainting = async (paintingId) => {
   return await utils.fetchManyToMany(
-    "genres",         // Target table (genres)
-    "paintinggenres", // Linking table
-    "genreId",        // Column in target table
-    "genreId",        // Column in linking table referencing target
-    "paintingId",     // Column in linking table filtering by painting ID
-    paintingId,       // The paintingId to filter by
-    ["*"],            // Select all fields from genres
-    "genreId",        // Order by genreName
-    true              // Sort ascending
+    tableName,         // Target table
+    "paintinggenres",  // Linking table
+    idColumn,          // Column in target table
+    idColumn,          // Column in linking table referencing target
+    "paintingId",      // Column in linking table filtering by painting ID
+    paintingId,        // The paintingId to filter by
+    ["*"],             // Select all fields from genres
+    idColumn,          // Order by genreName
+    true               // Sort ascending
   );
 };
 
