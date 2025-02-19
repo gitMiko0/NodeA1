@@ -12,14 +12,6 @@ export const getGenreById = async (id) => {
   return await utils.searchById(tableName, idColumn, id);
 };
 
-export const getGenreCounts = async () => {
-  return await utils.getCount(tableName, "genreName", "paintings");
-};
-
-export const getTopGenres = async (threshold) => {
-  return await utils.getTopCounts(tableName, "genreName", "paintings", threshold);
-};
-
 /**
  * Get all genres for a given painting
  * @param {number} paintingId - The ID of the painting
