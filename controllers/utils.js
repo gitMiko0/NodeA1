@@ -1,4 +1,4 @@
-// utils.js
+// utils.js - contains reusable polymorphic functions that handle basic queries
 
 import supabase from "../models/db.js";
 
@@ -80,19 +80,20 @@ export const getAllSorted = async (tableName, sortColumn, ascending = true) => {
     throw error; // Re-throw the error to be caught by the route handler
   }
 };
+
 /**
  * Generic function to fetch records via a many-to-many relationship.
  *
- * @param {string}        targetTable - The table we want data from (e.g., "genres" or "paintings")
- * @param {string}        linkingTable - The many-to-many relationship table (e.g., "paintinggenres")
- * @param {string}        targetTableIdColumn - The ID column in the target table (e.g., "genreId" or "paintingId")
- * @param {string}        linkingTableTargetColumn - The column in linkingTable referencing the targetTable (e.g., "genreId" or "paintingId")
- * @param {string}        linkingTableFilterColumn - The column in linkingTable filtering by a given ID (e.g., "paintingId" or "genreId")
- * @param {number}        filterValue - The specific ID to filter by
- * @param {Array<string>} selectFields - The fields to retrieve from the targetTable
- * @param {string}        orderByColumn - The column to sort by (optional)
- * @param {boolean}       ascending - Whether sorting is ascending (default: true)
- * @returns {Promise<Array>} - Array of matching records
+ * @param {string}        targetTable               The table we want data from (e.g., "genres" or "paintings")
+ * @param {string}        linkingTable              The many-to-many relationship table (e.g., "paintinggenres")
+ * @param {string}        targetTableIdColumn       The ID column in the target table (e.g., "genreId" or "paintingId")
+ * @param {string}        linkingTableTargetColumn  The column in linkingTable referencing the targetTable (e.g., "genreId" or "paintingId")
+ * @param {string}        linkingTableFilterColumn  The column in linkingTable filtering by a given ID (e.g., "paintingId" or "genreId")
+ * @param {number}        filterValue               The specific ID to filter by
+ * @param {Array<string>} selectFields              The fields to retrieve from the targetTable
+ * @param {string}        orderByColumn             The column to sort by (optional)
+ * @param {boolean}       ascending                 Whether sorting is ascending (default: true)
+ * @returns {Promise<Array>}                        Array of matching records
  */
 export const fetchManyToMany = async (
   targetTable,

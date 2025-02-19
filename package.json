@@ -5,12 +5,17 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "start": "node --disable-warning=DEP0040 index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5"
+    "20": "^3.1.9",
+    "cors": "^2.8.5",
+    "normalize-url": "^8.0.1",
+    "punycode": "^2.1.1",
+    "tr46": "^5.0.0",
+    "whatwg-url": "^14.1.1"
   }
 }
