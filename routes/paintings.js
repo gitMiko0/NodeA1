@@ -1,5 +1,4 @@
 // paintingsRoutes.js
-
 import express from "express";
 import * as paintingsController from "../controllers/paintingsController.js";
 

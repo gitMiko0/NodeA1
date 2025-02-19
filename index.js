@@ -1,4 +1,5 @@
 // index.js - Main server setup
+
 import express from "express";
 import cors from "cors";
 
@@ -9,6 +10,12 @@ app.set("json spaces", 2); // Enable automatic JSON pretty printing
 app.use(cors());
 app.use(express.json());
 
+
+/*
+Error-handling docs:
+400	Bad Request	Client-side errors (e.g., invalid input, malformed requests).
+500	Internal Server Error	Unexpected server-side errors (e.g., bugs, database failures).
+*/
 import artistsRoutes from "./routes/artists.js";
 import galleriesRoutes from "./routes/galleries.js";
 import paintingsRoutes from "./routes/paintings.js";

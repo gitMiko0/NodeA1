@@ -1,5 +1,4 @@
 // utils.js - contains reusable polymorphic functions that handle basic queries
-
 import supabase from "../models/db.js";
 
 /**
