@@ -1,13 +1,10 @@
 // index.js - Main server setup
-
 import express from "express";
-import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.set("json spaces", 2); // Enable automatic JSON pretty printing
-app.use(cors());
 app.use(express.json());
 
 
