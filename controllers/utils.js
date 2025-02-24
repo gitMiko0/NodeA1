@@ -1,4 +1,4 @@
-// utils.js - contains reusable polymorphic functions that handle basic queries
+// utils.js - contains reusable polymorphic functions that handle basic queries for any relational table
 import supabase from "../models/db.js";
 
 /**

@@ -1,7 +1,7 @@
 // genresController.js
 
-import * as utils from "./utils.js";  // Import the utils file
-const tableName = "genres"; // Define table name.
+import * as utils from "./utils.js"; 
+const tableName = "genres";
 const idColumn = "genreId";
 
 export const getAllGenres = async () => {
