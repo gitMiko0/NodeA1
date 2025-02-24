@@ -58,7 +58,7 @@ The project contains similar queries albeit accessing the numerous tables availa
 
 [https://nodea1.onrender.com/api/paintings/search/pORt](https://nodea1.onrender.com/api/paintings/search/pORt) – Case variation test for searching "pORt".
 
-[https://nodea1.onrender.com/api/paintings/search/connolly](https://nodea1.onrender.com/api/paintings/search/connolly) – Searches for paintings with "connolly" in the title.
+[https://nodea1.onrender.com/api/paintings/search/connolly](https://nodea1.onrender.com/api/paintings/search/connolly) – Error Test Case: Searches for paintings with "connolly" in the title.
 
 [https://nodea1.onrender.com/api/paintings/years/1800/1850](https://nodea1.onrender.com/api/paintings/years/1800/1850) – Retrieves paintings created between 1800 and 1850.
 
