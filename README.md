@@ -93,7 +93,7 @@ The project contains similar queries albeit accessing the numerous tables availa
 
 -----------
 
-ARCHIVE -- IGNORE THIS
+ARCHIVE -- PLEASE IGNORE
 *   [http://localhost:3000/api/eras](http://localhost:3000/api/eras)
 *   [http://localhost:3000/api/galleries](http://localhost:3000/api/galleries)
 *   [http://localhost:3000/api/galleries/30](http://localhost:3000/api/galleries/30)
