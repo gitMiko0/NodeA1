@@ -1,11 +1,13 @@
 #NodeA1 Art API
 
 **Overview**
+
 The project is a RESTful API that provides access to a collection of paintings, artists, galleries, genres, and eras. Built with Node.js and Express, the API fetches data from a database hosted in Supabase, allowing users to query paintings by various attributes such as year, artist, genre, and location. The API also includes statistical endpoints that count paintings by genre and artist.
 
 This project was developed for COMP 4513 at Mount Royal University as Assignment 1, focusing on API development, database integration, and RESTful design principles.
 
 **Features**
+
 Retrieve paintings, artists, galleries, and genres
 Search for paintings and artists by name, country, or era
 Sort paintings by title or year
@@ -14,11 +16,13 @@ Get statistics on paintings by genre and artist
 Handle error cases gracefully
 
 **Technologies Used**
+
 Node.js & Express – Backend framework
 Supabase – PostgreSQL database hosting
 Render.com – API hosting
 
 **Design Approach**
+
 The project contains similar queries albeit accessing the numerous tables available. Therefore, to minimize the workload, improve readability, maintainability and scalability of code, reusable functions were designed to handled such cases. More complex queries that include multiple joins and filters were handled on a case-by-case basis. Some of these (eg. counts queries) uses a function written in the SQL Editor available in Supabase.
 
 # Art API Routes
