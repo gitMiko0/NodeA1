@@ -4,6 +4,9 @@ import express from "express";
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Enable CORS for all routes
+app.use(cors());
+
 app.set("json spaces", 2); // Enable automatic JSON pretty printing
 app.use(express.json());
 
