@@ -6,7 +6,12 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your frontend URL
+  methods: 'GET, POST, PUT, DELETE, OPTIONS',
+  allowedHeaders: 'Content-Type, Authorization',
+  credentials: true,
+}));
 
 app.set("json spaces", 2); // Enable automatic JSON pretty printing
 app.use(express.json());
