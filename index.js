@@ -5,11 +5,17 @@ import fs from "fs";
 const app = express();
 const port = process.env.PORT || 3000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://artapp-6p6m.onrender.com",
+];
+
 // Enable CORS for all routes
 app.use(cors({
-  origin: 'http://localhost:5173', // Replace with your frontend URL
+  origin: allowedOrigins, // MUST contain the frontend host url
   methods: 'GET, POST, PUT, DELETE, OPTIONS',
   allowedHeaders: 'Content-Type, Authorization',
+  
   credentials: true,
 }));
 
