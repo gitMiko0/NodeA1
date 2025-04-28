@@ -9,6 +9,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://artapp-6p6m.onrender.com",
   "https://elysiana-backend.up.railway.app",
+  "https://elysiana.vercel.app",
 ];
 
 // Enable CORS for all routes
