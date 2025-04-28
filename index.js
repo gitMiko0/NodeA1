@@ -8,6 +8,7 @@ const port = process.env.PORT || 3000;
 const allowedOrigins = [
   "http://localhost:5173",
   "https://artapp-6p6m.onrender.com",
+  "https://elysiana-backend.up.railway.app/",
 ];
 
 // Enable CORS for all routes
