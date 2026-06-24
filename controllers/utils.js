@@ -1,6 +1,6 @@
 // utils.js - contains reusable polymorphic functions that handle basic queries for any relational table
-import supabase from "../models/db.js";
-
+// import supabase from "../models/db.js";
+// supabase is no longer used as of Jun, 2026
 /**
  * Retrieves a single record from a table by its ID.
  *

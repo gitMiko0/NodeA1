@@ -7,7 +7,6 @@ const port = process.env.PORT || 3000;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://artapp-6p6m.onrender.com",
   "https://elysiana.vercel.app",
   "https://elysianabackend.vercel.app"
 ];
