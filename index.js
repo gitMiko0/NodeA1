@@ -44,6 +44,19 @@ app.use("/api/genres", genresRoutes);
 app.use("/api/eras", erasRoutes);
 app.use("/api/counts", countsRoutes);
 
+// A lightweight route just to ping the database
+router.get('/keep-alive', async (req, res) => {
+  try {
+    // A tiny query just to prove we are active
+    const { error } = await supabase.from('eras').select('eraId').limit(1);
+    
+    if (error) throw error;
+    res.status(200).send("Supabase is awake!");
+  } catch (err) {
+    res.status(500).send("Failed to ping database");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
